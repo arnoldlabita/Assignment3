@@ -1,0 +1,48 @@
+{% extends "assets/base.html" %}
+
+{% block content %}
+    <h1>Executive Dashboard</h1>
+    
+    <div style="background: #eef; padding: 15px; border-radius: 5px;">
+        <h3>Total Asset Valuation: ${{ total_asset_value }}</h3>
+    </div>
+
+    <h3>Inventory Breakdown</h3>
+    <ul>
+        {% for item in assets_by_type %}
+            <li>{{ item.asset_type }}: <strong>{{ item.count }} units</strong></li>
+        {% empty %}
+            <li>No assets found.</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+    <h4 class="mt-4">Cost by Department</h4>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Department</th>
+                <th>Total Asset Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dept in department_costs %}
+            <tr>
+                <td>{{ dept.name }}</td>
+                <td>₱ {{ dept.total_cost|floatformat:2 }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No department data available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td><strong>Total Repair Costs</strong></td>
+                <td><strong>₱ {{ total_repair_cost|floatformat:2 }}</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}
